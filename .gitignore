@@ -9,6 +9,7 @@
 /[Bb]uilds/
 /[Ll]ogs/
 /[Mm]emoryCaptures/
+/.idea/
 
 # Asset meta data should only be ignored when the corresponding asset is also ignored
 !/[Aa]ssets/**/*.meta
@@ -58,3 +59,6 @@ sysinfo.txt
 # Crashlytics generated file
 crashlytics-build.properties
 
+# GameDevHQ Filebase Plugin
+[Aa]ssets/[Gg]ame[Dd]ev[Hh][Qq]/[Ff]ile[Bb]ase/[Pp]lugin/
+[Aa]ssets/[Gg]ame[Dd]ev[Hh][Qq]/[Ff]ile[Bb]ase/[Pp]lugin.meta
