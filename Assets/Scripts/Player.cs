@@ -6,6 +6,7 @@ public class Player : MonoBehaviour
 {
     [Header("Player Properties")] 
     [SerializeField][Range(2.0f, 15.0f)] private float _speed = 4.0f;
+    [SerializeField] [Range(0, 5)] private int _lives = 3; 
     [SerializeField][Range(0.2f, 1.0f)] private float _laserOffset;
 
     [Header("Position Data")] 
@@ -15,8 +16,9 @@ public class Player : MonoBehaviour
     private Transform _topPlayerBorder;
     private Transform _bottomPlayerBorder;
 
-    [Header("Game Objects")] 
+    [Header("Game Objects")]
     [SerializeField] private GameObject _laserPrefab;
+    private SpawnManager _spawnManager;
 
     [Header("Laser Cooldown System")]
     [SerializeField] [Range(0.1f, 1.5f)] private float _cooldownTime = 0.25f;
@@ -45,6 +47,7 @@ public class Player : MonoBehaviour
         _rightPlayerBorder = GameObject.Find("PlayerBorder_right").transform;
         _topPlayerBorder = GameObject.Find("PlayerBorder_top").transform;
         _bottomPlayerBorder = GameObject.Find("PlayerBorder_bottom").transform;
+        _spawnManager = GameObject.Find("SpawnManager").GetComponent<SpawnManager>();
     }
 
     private void NullChecking()
@@ -72,6 +75,11 @@ public class Player : MonoBehaviour
         if (_bottomPlayerBorder == null)
         {
             Debug.LogError("'_bottomPlayerBorder' is NULL! Have you named the GameObject 'PlayerBorder_bottom'?");
+        } 
+        
+        if (_spawnManager == null)
+        {
+            Debug.LogError("'_spawnManager' is NULL! Have you named the GameObject 'SpawnManager'?");
         }
     }
 
@@ -116,5 +124,17 @@ public class Player : MonoBehaviour
             Instantiate(_laserPrefab, transform.position + (_laserPrefab.transform.up * _laserOffset),
                 Quaternion.identity);
         }
+    }
+
+    public void Damage()
+    {
+        _lives--;
+
+        if (_lives <= 0)
+        {
+            Destroy(this.gameObject);
+            _spawnManager.OnPlayerDeath();
+        }
+            
     }
 }
