@@ -23,6 +23,11 @@ public class Player : MonoBehaviour
     [Header("Laser Cooldown System")]
     [SerializeField] [Range(0.1f, 1.5f)] private float _cooldownTime = 0.25f;
     private float _nextFire = 0.0f;
+    
+    [Header("Triple Shot")]
+    [SerializeField][Range(2.0f, 10.0f)] private float _tripleShotDuration = 5.0f;
+    private bool _isTripleShotActive;
+    [SerializeField] private GameObject _tripleLaserPrefab;
 
     // ========================================================
 
@@ -118,11 +123,19 @@ public class Player : MonoBehaviour
     {
         if (Input.GetKeyDown(KeyCode.Space) && Time.time > _nextFire)
         {
+            if (_isTripleShotActive)
+            {
+                Instantiate(_tripleLaserPrefab, transform.position + (_tripleLaserPrefab.transform.up * _laserOffset),
+                    Quaternion.identity);
+            }
+            
+            else
+            {
+                Instantiate(_laserPrefab, transform.position + (_laserPrefab.transform.up * _laserOffset),
+                    Quaternion.identity);
+            }
             // Cooldown System
             _nextFire = _cooldownTime + Time.time;
-
-            Instantiate(_laserPrefab, transform.position + (_laserPrefab.transform.up * _laserOffset),
-                Quaternion.identity);
         }
     }
 
@@ -136,5 +149,17 @@ public class Player : MonoBehaviour
             _spawnManager.OnPlayerDeath();
         }
             
+    }
+
+    public void ActivateTripleShot()
+    {
+        StartCoroutine(TripleShotRoutine());
+    }
+
+    private IEnumerator TripleShotRoutine()
+    {
+        _isTripleShotActive = true;
+        yield return new WaitForSeconds(_tripleShotDuration);
+        _isTripleShotActive = false;
     }
 }

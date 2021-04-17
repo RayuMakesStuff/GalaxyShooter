@@ -658,13 +658,14 @@ GameObject:
   - component: {fileID: 1212171668}
   - component: {fileID: 1212171667}
   - component: {fileID: 1212171666}
+  - component: {fileID: 1212171671}
   m_Layer: 0
   m_Name: Player
   m_TagString: Player
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!50 &1212171666
 Rigidbody2D:
   serializedVersion: 4
@@ -699,7 +700,7 @@ BoxCollider2D:
   m_IsTrigger: 1
   m_UsedByEffector: 0
   m_UsedByComposite: 0
-  m_Offset: {x: 0.01148355, y: -0.031579494}
+  m_Offset: {x: -0.00000023841858, y: -0.021341324}
   m_SpriteTilingProperty:
     border: {x: 0, y: 0, z: 0, w: 0}
     pivot: {x: 0.5, y: 0.5}
@@ -710,7 +711,7 @@ BoxCollider2D:
     adaptiveTiling: 0
   m_AutoTiling: 0
   serializedVersion: 2
-  m_Size: {x: 3.1907766, y: 4.115196}
+  m_Size: {x: 3.217597, y: 4.150506}
   m_EdgeRadius: 0
 --- !u!114 &1212171668
 MonoBehaviour:
@@ -726,9 +727,11 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _speed: 6
   _lives: 3
-  _laserOffset: 0
+  _laserOffset: 0.8
   _laserPrefab: {fileID: 1279967228991413138, guid: 42302504244379847af9ea3ded8a77fd, type: 3}
   _cooldownTime: 0.25
+  _tripleShotDuration: 5
+  _tripleLaserPrefab: {fileID: 2104442377772204809, guid: 8dfc427232c90b14999387f53f2c11eb, type: 3}
 --- !u!212 &1212171669
 SpriteRenderer:
   m_ObjectHideFlags: 0
@@ -766,9 +769,9 @@ SpriteRenderer:
   m_AutoUVMaxDistance: 0.5
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
-  m_SortingLayerID: 44220693
-  m_SortingLayer: 2
-  m_SortingOrder: 2
+  m_SortingLayerID: -545247841
+  m_SortingLayer: 4
+  m_SortingOrder: 0
   m_Sprite: {fileID: 21300000, guid: 1b4a8fdd39d3a45d0a9ee484ad6800ec, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
@@ -794,6 +797,25 @@ Transform:
   m_Father: {fileID: 510687053}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!95 &1212171671
+Animator:
+  serializedVersion: 3
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1212171665}
+  m_Enabled: 1
+  m_Avatar: {fileID: 0}
+  m_Controller: {fileID: 9100000, guid: a77f3f328a9dc2d4bb4021f0bc02bd49, type: 2}
+  m_CullingMode: 0
+  m_UpdateMode: 0
+  m_ApplyRootMotion: 0
+  m_LinearVelocityBlending: 0
+  m_WarningMessage: 
+  m_HasTransformHierarchy: 1
+  m_AllowConstantClipSamplingOptimization: 1
+  m_KeepAnimatorControllerStateOnDisable: 0
 --- !u!1 &1249933492
 GameObject:
   m_ObjectHideFlags: 0
@@ -989,6 +1011,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _enemyPrefab: {fileID: 1364732033486892478, guid: 065a51df2b7199041a525b7419c9a110, type: 3}
+  _tripleShotPowerUpPrefab: {fileID: 8058495013144383739, guid: 2f4165305f1ffd54bb807a60b71dd91c, type: 3}
   _minimumTimeToWait: 2
   _maximumTimeToWait: 5
 --- !u!1 &1881016323

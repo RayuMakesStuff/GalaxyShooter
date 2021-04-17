@@ -10,8 +10,9 @@ public class SpawnManager : MonoBehaviour
     private Transform _topEnemyBorder;
 
     [Header("Game Objects")]
-    [SerializeField] private GameObject _enemyPrefab; 
-                     private Player _player;
+    [SerializeField] private GameObject _enemyPrefab;
+    [SerializeField] private GameObject _tripleShotPowerUpPrefab;
+    private Player _player;
 
     [Header("Debug Booleans")]
     private bool _stopSpawning;
@@ -78,6 +79,7 @@ public class SpawnManager : MonoBehaviour
     private void StartSpawning()
     {
         StartCoroutine(EnemySpawnRoutine());
+        StartCoroutine(PowerUpSpawnRoutine());
     }
 
     private IEnumerator EnemySpawnRoutine()
@@ -86,6 +88,15 @@ public class SpawnManager : MonoBehaviour
         {
             float randomX = Random.Range(_leftEnemyBorder.transform.position.x, _rightEnemyBorder.transform.position.x);
             Instantiate(_enemyPrefab, new Vector3(randomX, _topEnemyBorder.position.y, 0), Quaternion.identity);
+            yield return new WaitForSeconds(Random.Range(_minimumTimeToWait, _maximumTimeToWait));
+        }
+    }    
+    private IEnumerator PowerUpSpawnRoutine()
+    {
+        while (_stopSpawning == false)
+        {
+            float randomX = Random.Range(_leftEnemyBorder.transform.position.x, _rightEnemyBorder.transform.position.x);
+            Instantiate(_tripleShotPowerUpPrefab, new Vector3(randomX, _topEnemyBorder.position.y, 0), Quaternion.identity);
             yield return new WaitForSeconds(Random.Range(_minimumTimeToWait, _maximumTimeToWait));
         }
     }

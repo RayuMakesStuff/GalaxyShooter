@@ -6,6 +6,7 @@ TagManager:
   tags:
   - Laser
   - Enemy
+  - PowerUp
   layers:
   - Default
   - TransparentFX
@@ -46,6 +47,12 @@ TagManager:
   - name: Background
     uniqueID: 3930472161
     locked: 0
-  - name: Foreground
+  - name: PowerUp
     uniqueID: 44220693
+    locked: 0
+  - name: Laser
+    uniqueID: 500539155
+    locked: 0
+  - name: Player + Enemy
+    uniqueID: 3749719455
     locked: 0
