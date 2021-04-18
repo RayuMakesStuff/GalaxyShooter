@@ -665,7 +665,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!50 &1212171666
 Rigidbody2D:
   serializedVersion: 4
@@ -732,6 +732,7 @@ MonoBehaviour:
   _cooldownTime: 0.25
   _tripleShotDuration: 5
   _tripleLaserPrefab: {fileID: 2104442377772204809, guid: 8dfc427232c90b14999387f53f2c11eb, type: 3}
+  _speedBoostDuration: 5
 --- !u!212 &1212171669
 SpriteRenderer:
   m_ObjectHideFlags: 0
@@ -1013,7 +1014,10 @@ MonoBehaviour:
   _enemyPrefab: {fileID: 1364732033486892478, guid: 065a51df2b7199041a525b7419c9a110, type: 3}
   _tripleShotPowerUpPrefab: {fileID: 8058495013144383739, guid: 2f4165305f1ffd54bb807a60b71dd91c, type: 3}
   _minimumTimeToWait: 2
-  _maximumTimeToWait: 5
+  _maximumTimeToWait: 1
+  _powerUps:
+  - {fileID: 8058495013144383739, guid: 2f4165305f1ffd54bb807a60b71dd91c, type: 3}
+  - {fileID: 5371101362353178516, guid: ca78d78c5e6e0b54ebd235eb225b3bd7, type: 3}
 --- !u!1 &1881016323
 GameObject:
   m_ObjectHideFlags: 0

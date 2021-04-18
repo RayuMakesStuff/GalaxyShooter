@@ -20,6 +20,9 @@ public class SpawnManager : MonoBehaviour
     [Header("Enemy Spawn Timer")]
     [SerializeField][Range(1, 5)] private int _minimumTimeToWait = 2;
     [SerializeField][Range(1, 8)] private int _maximumTimeToWait = 6;
+    
+    [Header("Power Ups")]
+    [SerializeField] private GameObject[] _powerUps;
 
     // ========================================================================================================
 
@@ -42,15 +45,11 @@ public class SpawnManager : MonoBehaviour
     {
         if (_maximumTimeToWait < _minimumTimeToWait)
         {
-            Debug.LogError("Cannot start because of an invalid configured timer! " +
-                           "Please adjust the time values in the SpawnManager within the Editor" +
-                           " and re-launch the application!");
+            _maximumTimeToWait = _minimumTimeToWait + 1;
+            Debug.LogWarning("Time values changed due to an invalid configured timer!");
         }
-
-        else
-        {
-            StartSpawning();
-        }
+        
+        StartSpawning();
     }
 
     private void NullChecking()
@@ -93,11 +92,14 @@ public class SpawnManager : MonoBehaviour
     }    
     private IEnumerator PowerUpSpawnRoutine()
     {
+        yield return new WaitForSeconds(3.0f);
+        
         while (_stopSpawning == false)
         {
             float randomX = Random.Range(_leftEnemyBorder.transform.position.x, _rightEnemyBorder.transform.position.x);
-            Instantiate(_tripleShotPowerUpPrefab, new Vector3(randomX, _topEnemyBorder.position.y, 0), Quaternion.identity);
-            yield return new WaitForSeconds(Random.Range(_minimumTimeToWait, _maximumTimeToWait));
+            int powerUpID = Random.Range(0, _powerUps.Length);
+            Instantiate(_powerUps[powerUpID], new Vector3(randomX, _topEnemyBorder.position.y, 0), Quaternion.identity);
+            yield return new WaitForSeconds(Random.Range(1.0f, 3.0f));
         }
     }
     

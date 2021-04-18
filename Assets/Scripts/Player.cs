@@ -29,6 +29,12 @@ public class Player : MonoBehaviour
     private bool _isTripleShotActive;
     [SerializeField] private GameObject _tripleLaserPrefab;
 
+    [Header("Speed Boost")]
+    [SerializeField][Range(2.0f, 10.0f)] private float _speedBoostDuration;
+    private float _startSpeedValue;
+    private bool _isSpeedBoostActive;
+    
+
     // ========================================================
 
     private void Start()
@@ -36,6 +42,8 @@ public class Player : MonoBehaviour
         FindGameObjects();
         NullChecking();
         ResetSpawnPosition();
+
+        _startSpeedValue = _speed;
     }
 
     private void Update()
@@ -161,5 +169,20 @@ public class Player : MonoBehaviour
         _isTripleShotActive = true;
         yield return new WaitForSeconds(_tripleShotDuration);
         _isTripleShotActive = false;
+    }
+
+    public void ActivateSpeedBoost()
+    {
+        StartCoroutine(SpeedBoostRoutine());
+    }
+    
+    private IEnumerator SpeedBoostRoutine()
+    {
+        _isSpeedBoostActive = true; 
+        _speed = 10;
+        yield return new WaitForSeconds(_speedBoostDuration);
+        _speed = _startSpeedValue;
+        _isSpeedBoostActive = false;
+        
     }
 }
