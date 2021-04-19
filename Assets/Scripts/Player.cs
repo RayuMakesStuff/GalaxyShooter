@@ -18,7 +18,9 @@ public class Player : MonoBehaviour
 
     [Header("Game Objects")]
     [SerializeField] private GameObject _laserPrefab;
+    [SerializeField] private GameObject _shieldVisualizer;
     private SpawnManager _spawnManager;
+    private bool _isShieldActive;
 
     [Header("Laser Cooldown System")]
     [SerializeField] [Range(0.1f, 1.5f)] private float _cooldownTime = 0.25f;
@@ -149,6 +151,13 @@ public class Player : MonoBehaviour
 
     public void Damage()
     {
+        if (_isShieldActive)
+        {
+            _isShieldActive = false; 
+            _shieldVisualizer.gameObject.SetActive(false);
+            return;
+        }
+    
         _lives--;
 
         if (_lives <= 0)
@@ -183,6 +192,11 @@ public class Player : MonoBehaviour
         yield return new WaitForSeconds(_speedBoostDuration);
         _speed = _startSpeedValue;
         _isSpeedBoostActive = false;
-        
+    }
+    
+    public void ActivateShield()
+    {
+        _isShieldActive = true;
+        _shieldVisualizer.gameObject.SetActive(true); 
     }
 }

@@ -16,11 +16,11 @@ public class SpawnManager : MonoBehaviour
 
     [Header("Debug Booleans")]
     private bool _stopSpawning;
-    
+
     [Header("Enemy Spawn Timer")]
     [SerializeField][Range(1, 5)] private int _minimumTimeToWait = 2;
     [SerializeField][Range(1, 8)] private int _maximumTimeToWait = 6;
-    
+
     [Header("Power Ups")]
     [SerializeField] private GameObject[] _powerUps;
 
@@ -99,7 +99,7 @@ public class SpawnManager : MonoBehaviour
             float randomX = Random.Range(_leftEnemyBorder.transform.position.x, _rightEnemyBorder.transform.position.x);
             int powerUpID = Random.Range(0, _powerUps.Length);
             Instantiate(_powerUps[powerUpID], new Vector3(randomX, _topEnemyBorder.position.y, 0), Quaternion.identity);
-            yield return new WaitForSeconds(Random.Range(1.0f, 3.0f));
+            yield return new WaitForSeconds(Random.Range(10.0f, 30.0f));
         }
     }
     

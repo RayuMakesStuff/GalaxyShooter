@@ -5,7 +5,7 @@ using UnityEngine;
 
 public class PowerUp : MonoBehaviour
 {
-    [SerializeField][Range(2.0f, 8.0f)] private float _speed = 2.5f;
+    [SerializeField][Range(0.0f, 8.0f)] private float _speed = 2.5f;
     [SerializeField] private int _powerUpID;
     
     private Transform _powerUpDestroyPoint;
@@ -67,7 +67,11 @@ public class PowerUp : MonoBehaviour
                 case 1:
                     _player.ActivateSpeedBoost();
                     break;
+                case 2:
+                    _player.ActivateShield();
+                    break;
                 default:
+                    Debug.LogWarning("Invalid powerup ID!");
                     break;
             }
         }

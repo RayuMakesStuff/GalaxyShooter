@@ -50,6 +50,9 @@ TagManager:
   - name: PowerUp
     uniqueID: 44220693
     locked: 0
+  - name: Shield
+    uniqueID: 1648338667
+    locked: 0
   - name: Laser
     uniqueID: 500539155
     locked: 0
