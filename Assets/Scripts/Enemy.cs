@@ -60,6 +60,7 @@ public class Enemy : MonoBehaviour
         if (other.CompareTag("Laser"))
         {
             Destroy(other.gameObject);
+            _player.AddScore(10);
             Destroy(this.gameObject);
         }
 

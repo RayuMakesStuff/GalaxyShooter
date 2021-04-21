@@ -36,6 +36,9 @@ public class Player : MonoBehaviour
     private float _startSpeedValue;
     private bool _isSpeedBoostActive;
     
+    [Header("UI Elements")] 
+    private int _score;
+    
 
     // ========================================================
 
@@ -198,5 +201,15 @@ public class Player : MonoBehaviour
     {
         _isShieldActive = true;
         _shieldVisualizer.gameObject.SetActive(true); 
+    }
+    
+    public void AddScore(int pointsToAdd)
+    {
+        _score += pointsToAdd;
+    }
+    
+    public int GetScore()
+    {
+        return _score;
     }
 }
