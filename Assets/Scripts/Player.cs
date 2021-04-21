@@ -20,6 +20,7 @@ public class Player : MonoBehaviour
     [SerializeField] private GameObject _laserPrefab;
     [SerializeField] private GameObject _shieldVisualizer;
     private SpawnManager _spawnManager;
+    private UIManager _uiManager;
     private bool _isShieldActive;
 
     [Header("Laser Cooldown System")]
@@ -49,6 +50,7 @@ public class Player : MonoBehaviour
         ResetSpawnPosition();
 
         _startSpeedValue = _speed;
+        _uiManager.UpdateLives(_lives);
     }
 
     private void Update()
@@ -66,6 +68,7 @@ public class Player : MonoBehaviour
         _topPlayerBorder = GameObject.Find("PlayerBorder_top").transform;
         _bottomPlayerBorder = GameObject.Find("PlayerBorder_bottom").transform;
         _spawnManager = GameObject.Find("SpawnManager").GetComponent<SpawnManager>();
+        _uiManager = GameObject.Find("UIManager").GetComponent<UIManager>();
     }
 
     private void NullChecking()
@@ -162,6 +165,7 @@ public class Player : MonoBehaviour
         }
     
         _lives--;
+        _uiManager.UpdateLives(_lives);
 
         if (_lives <= 0)
         {
