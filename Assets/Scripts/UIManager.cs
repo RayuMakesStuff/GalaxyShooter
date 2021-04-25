@@ -1,3 +1,4 @@
+using System.Collections;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -9,6 +10,11 @@ public class UIManager : MonoBehaviour
     [Header("Lives")]
     [SerializeField] private Image _livesImage;
     [SerializeField] private Sprite[] _liveSprites;
+    
+    [Header("Game Over")] 
+    [SerializeField] private GameObject _gameOverStorage;
+    [SerializeField] private Text _gameOverText;
+    [SerializeField] private Text _restartGameText;
 
     [Header("Game Objects")]
     private Player _player;
@@ -30,6 +36,17 @@ public class UIManager : MonoBehaviour
         _player = GameObject.Find("Player").GetComponent<Player>();
     }
     
+    private IEnumerator GameOverSequence()
+    {
+        while (true)
+        {
+            _gameOverText.text = "GAME OVER";
+            yield return new WaitForSeconds(1.0f);
+            _gameOverText.text = "";
+            yield return new WaitForSeconds(1.0f);
+        }
+    }
+    
     public void UpdateLives(int currentLives)
     {
         _livesImage.sprite = _liveSprites[currentLives]; // Update the live visualization based on the currentLives index 
@@ -46,9 +63,9 @@ public class UIManager : MonoBehaviour
                 _livesImage.color = Color.red;
                 break;
             case 0:
-                // _gameOverText.gameObject.SetActive(true);
-                // _restartGameText.gameObject.SetActive(true);
-                // StartCoroutine(GameOverSequence());
+                _gameOverText.gameObject.SetActive(true);
+                _restartGameText.gameObject.SetActive(true);
+                StartCoroutine(GameOverSequence());
                 // _gameManager.GameOver();
                 break;
         }

@@ -74,34 +74,22 @@ public class Player : MonoBehaviour
     private void NullChecking()
     {
         if (_playerSpawnPosition == null)
-        {
             Debug.LogError("'_playerSpawnPosition' is NULL! Have you named the GameObject 'PlayerSpawnPosition'?");
-        }
 
         if (_topPlayerBorder == null)
-        {
             Debug.LogError("'_topPlayerBorder' is NULL! Have you named the GameObject 'PlayerBorder_top'?");
-        }
-
+        
         if (_rightPlayerBorder == null)
-        {
             Debug.LogError("'_rightPlayerBorder' is NULL! Have you named the GameObject 'PlayerBorder_right'?");
-        }
 
         if (_leftPlayerBorder == null)
-        {
             Debug.LogError("'_leftPlayerBorder' is NULL! Have you named the GameObject 'PlayerBorder_left'?");
-        }
 
         if (_bottomPlayerBorder == null)
-        {
             Debug.LogError("'_bottomPlayerBorder' is NULL! Have you named the GameObject 'PlayerBorder_bottom'?");
-        } 
-        
+
         if (_spawnManager == null)
-        {
             Debug.LogError("'_spawnManager' is NULL! Have you named the GameObject 'SpawnManager'?");
-        }
     }
 
     private void ResetSpawnPosition()
@@ -172,7 +160,6 @@ public class Player : MonoBehaviour
             Destroy(this.gameObject);
             _spawnManager.OnPlayerDeath();
         }
-            
     }
 
     public void ActivateTripleShot()
