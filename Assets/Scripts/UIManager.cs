@@ -18,12 +18,14 @@ public class UIManager : MonoBehaviour
 
     [Header("Game Objects")]
     private Player _player;
+    private GameManager _gameManager;
     
     // ================================================================
     
     void Start()
     {
         FindGameObjects();
+        DisableGameObjectsOnStart();
     }
 
     void Update()
@@ -34,8 +36,15 @@ public class UIManager : MonoBehaviour
     private void FindGameObjects()
     {
         _player = GameObject.Find("Player").GetComponent<Player>();
+        _gameManager = GameObject.Find("GameManager").GetComponent<GameManager>();
     }
-    
+
+    private void DisableGameObjectsOnStart()
+    {
+        _gameOverText.gameObject.SetActive(false);
+        _restartGameText.gameObject.SetActive(false);
+    }
+
     private IEnumerator GameOverSequence()
     {
         while (true)
@@ -66,7 +75,7 @@ public class UIManager : MonoBehaviour
                 _gameOverText.gameObject.SetActive(true);
                 _restartGameText.gameObject.SetActive(true);
                 StartCoroutine(GameOverSequence());
-                // _gameManager.GameOver();
+                _gameManager.GameOver();
                 break;
         }
     }
