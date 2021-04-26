@@ -12,6 +12,8 @@ public class Enemy : MonoBehaviour
     
     [Header("Game Objects")]
     private Player _player;
+    private Animator _animator;
+    private BoxCollider2D _boxCollider2D;
 
     // ====================================================================
     
@@ -30,19 +32,20 @@ public class Enemy : MonoBehaviour
     {
         _player = GameObject.FindGameObjectWithTag("Player").GetComponent<Player>();
         _enemyDestroyPoint = GameObject.Find("EnemyDestroyPosition").transform;
+        _animator = GetComponent<Animator>();
+        _boxCollider2D = GetComponent<BoxCollider2D>();
     }
 
     private void NullChecking()
     {
         if (_enemyDestroyPoint == null)
-        {
             Debug.LogError("'_enemyDestroyPoint' is NULL! Have you named your GameObject 'EnemyDestroyPosition'?");
-        }
 
         if (_player == null)
-        {
             Debug.LogError("'_player' is NULL! Have you named your GameObject 'Player'?");
-        }
+
+        if (_animator == null)
+            Debug.LogError("'_animator' is NULL! Have you assigned the Animation?");
     }
 
     private void Movement()
@@ -61,15 +64,22 @@ public class Enemy : MonoBehaviour
         {
             Destroy(other.gameObject);
             _player.AddScore(10);
-            Destroy(this.gameObject);
+            EnemyDestroySequence();
         }
 
 
         if (other.CompareTag("Player"))
         {
             _player.Damage();
-            Destroy(this.gameObject);
+            EnemyDestroySequence();
         }
-
+    }
+    
+    private void EnemyDestroySequence()
+    {
+        Destroy(this._boxCollider2D);
+        _speed = 0f;
+        _animator.SetTrigger("OnEnemyDeath");
+        Destroy(this.gameObject, 2.5f);
     }
 }

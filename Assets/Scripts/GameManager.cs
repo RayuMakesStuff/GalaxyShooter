@@ -21,7 +21,7 @@ public class GameManager : MonoBehaviour
 
     private void FindGameObjects()
     {
-        _uiManager  = GameObject.Find("UI_Manager").GetComponent<UIManager>();
+        _uiManager  = GameObject.Find("UIManager").GetComponent<UIManager>();
     }
     
     private void NullChecking()
