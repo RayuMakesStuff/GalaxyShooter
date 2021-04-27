@@ -5,7 +5,7 @@ using UnityEngine;
 public class Enemy : MonoBehaviour
 {
     [Header("Enemy Properties")] 
-    [SerializeField][Range(2.0f, 8.0f)] private float _speed = 5.0f;
+    [SerializeField][Range(0.0f, 8.0f)] private float _speed = 5.0f;
 
     [Header("Position Data")] 
     private Transform _enemyDestroyPoint;

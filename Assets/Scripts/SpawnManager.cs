@@ -55,24 +55,17 @@ public class SpawnManager : MonoBehaviour
     private void NullChecking()
     {
         if (_leftEnemyBorder == null)
-        {
             Debug.LogError("'_leftEnemyBorder' is NULL! Have you named your GameObject 'LeftEnemyBorder'?");
-        }
 
         if (_rightEnemyBorder == null)
-        {
             Debug.LogError("'_rightEnemyBorder' is NULL! Have you named your GameObject 'RightEnemyBorder'?");
-        }
-        
+
         if (_topEnemyBorder == null)
-        {
             Debug.LogError("'_topEnemyBorder' is NULL! Have you named your GameObject 'TopEnemyBorder'?");
-        }
-        
+
         if (_player == null)
-        {
             Debug.LogError("'_player' is NULL! Have you named your GameObject 'Player'?");
-        }
+        
     }
 
     private void StartSpawning()

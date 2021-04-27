@@ -5,6 +5,7 @@ using UnityEngine;
 
 public class PowerUp : MonoBehaviour
 {
+    [Header("PowerUp Properties")]
     [SerializeField][Range(0.0f, 8.0f)] private float _speed = 2.5f;
     [SerializeField] private int _powerUpID;
     
@@ -33,14 +34,10 @@ public class PowerUp : MonoBehaviour
     private void NullChecking()
     {
         if (_powerUpDestroyPoint == null)
-        {
             Debug.LogError("'_enemyDestroyPoint' is NULL! Have you named your GameObject 'EnemyDestroyPosition'?");
-        }
 
         if (_player == null)
-        {
             Debug.LogError("'_player' is NULL! Have you named your GameObject 'Player'?");
-        }
     }
     
     private void Movement()

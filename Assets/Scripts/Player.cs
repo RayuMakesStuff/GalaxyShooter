@@ -8,6 +8,10 @@ public class Player : MonoBehaviour
     [SerializeField][Range(2.0f, 15.0f)] private float _speed = 4.0f;
     [SerializeField] [Range(0, 5)] private int _lives = 3; 
     [SerializeField][Range(0.2f, 1.0f)] private float _laserOffset;
+    
+    [Header("Damage Indicators")]
+    [SerializeField] private GameObject _leftDamageVisualizer;
+    [SerializeField] private GameObject _rightDamageVisualizer;
 
     [Header("Position Data")] 
     private Transform _playerSpawnPosition;
@@ -48,6 +52,7 @@ public class Player : MonoBehaviour
         FindGameObjects();
         NullChecking();
         ResetSpawnPosition();
+        UpdateDamageVisualizer();
 
         _startSpeedValue = _speed;
         _uiManager.UpdateLives(_lives);
@@ -154,11 +159,35 @@ public class Player : MonoBehaviour
     
         _lives--;
         _uiManager.UpdateLives(_lives);
+        UpdateDamageVisualizer();
 
         if (_lives <= 0)
         {
             Destroy(this.gameObject);
             _spawnManager.OnPlayerDeath();
+        }
+    }
+    
+    private void UpdateDamageVisualizer()
+    {
+        switch (_lives)
+        {
+            case 3:
+                _leftDamageVisualizer.gameObject.SetActive(false);
+                _rightDamageVisualizer.gameObject.SetActive(false);
+                break;
+            case 2:
+                _leftDamageVisualizer.gameObject.SetActive(true);
+                _rightDamageVisualizer.gameObject.SetActive(false);
+                break;
+            case 1:
+                _leftDamageVisualizer.gameObject.SetActive(true);
+                _rightDamageVisualizer.gameObject.SetActive(true);
+                break;
+            default:
+                _leftDamageVisualizer.gameObject.SetActive(false);
+                _rightDamageVisualizer.gameObject.SetActive(false);
+                break;
         }
     }
 

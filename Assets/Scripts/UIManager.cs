@@ -21,14 +21,14 @@ public class UIManager : MonoBehaviour
     private GameManager _gameManager;
     
     // ================================================================
-    
-    void Start()
+
+    private void Start()
     {
         FindGameObjects();
         DisableGameObjectsOnStart();
     }
 
-    void Update()
+    private void Update()
     {
         _scoreText.text = "Score: " + _player.GetScore();
     }
@@ -41,6 +41,7 @@ public class UIManager : MonoBehaviour
 
     private void DisableGameObjectsOnStart()
     {
+        _gameOverStorage.gameObject.SetActive(false);
         _gameOverText.gameObject.SetActive(false);
         _restartGameText.gameObject.SetActive(false);
     }
@@ -72,6 +73,7 @@ public class UIManager : MonoBehaviour
                 _livesImage.color = Color.red;
                 break;
             case 0:
+                _gameOverStorage.gameObject.SetActive(true);
                 _gameOverText.gameObject.SetActive(true);
                 _restartGameText.gameObject.SetActive(true);
                 StartCoroutine(GameOverSequence());
