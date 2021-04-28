@@ -41,9 +41,12 @@ public class Player : MonoBehaviour
     private float _startSpeedValue;
     private bool _isSpeedBoostActive;
     
+    [Header("Audio and Sound Effects")]
+    [SerializeField] private AudioClip _laserFireSound;
+    private AudioSource _audioSource;
+    
     [Header("UI Elements")] 
     private int _score;
-    
 
     // ========================================================
 
@@ -74,6 +77,7 @@ public class Player : MonoBehaviour
         _bottomPlayerBorder = GameObject.Find("PlayerBorder_bottom").transform;
         _spawnManager = GameObject.Find("SpawnManager").GetComponent<SpawnManager>();
         _uiManager = GameObject.Find("UIManager").GetComponent<UIManager>();
+        _audioSource = GetComponent<AudioSource>();
     }
 
     private void NullChecking()
@@ -95,6 +99,9 @@ public class Player : MonoBehaviour
 
         if (_spawnManager == null)
             Debug.LogError("'_spawnManager' is NULL! Have you named the GameObject 'SpawnManager'?");
+        
+        if (_audioSource == null)
+            Debug.LogError("'_audioSource' is NULL! Have you added a 'Audio Source' component?");
     }
 
     private void ResetSpawnPosition()
@@ -145,6 +152,8 @@ public class Player : MonoBehaviour
             }
             // Cooldown System
             _nextFire = _cooldownTime + Time.time;
+            _audioSource.clip = _laserFireSound;
+            _audioSource.Play();
         }
     }
 
