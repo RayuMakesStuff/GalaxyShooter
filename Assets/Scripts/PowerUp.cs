@@ -8,6 +8,10 @@ public class PowerUp : MonoBehaviour
     [Header("PowerUp Properties")]
     [SerializeField][Range(0.0f, 8.0f)] private float _speed = 2.5f;
     [SerializeField] private int _powerUpID;
+
+    [Header("Audio")] 
+    [SerializeField] private AudioClip _powerUpCollectionSound;
+    private AudioSource _audioSource;
     
     private Transform _powerUpDestroyPoint;
     private Player _player;
@@ -29,6 +33,7 @@ public class PowerUp : MonoBehaviour
     {
         _player = GameObject.FindGameObjectWithTag("Player").GetComponent<Player>();
         _powerUpDestroyPoint = GameObject.Find("EnemyDestroyPosition").transform;
+        _audioSource = GameObject.Find("PowerUp_AudioManager").GetComponent<AudioSource>();
     }
 
     private void NullChecking()
@@ -38,6 +43,9 @@ public class PowerUp : MonoBehaviour
 
         if (_player == null)
             Debug.LogError("'_player' is NULL! Have you named your GameObject 'Player'?");
+        
+        if (_audioSource == null)
+            Debug.LogError("'_audioSource' is NULL! Have you added a 'Audio Source' component?");
     }
     
     private void Movement()
@@ -55,7 +63,9 @@ public class PowerUp : MonoBehaviour
         if (other.CompareTag("Player"))
         {
             Destroy(this.gameObject);
-            
+            _audioSource.clip = _powerUpCollectionSound;
+            _audioSource.Play();
+
             switch (_powerUpID)
             {
                 case 0:
