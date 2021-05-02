@@ -42,4 +42,14 @@ public class GameManager : MonoBehaviour
     {
         _isGameOver = true;
     }
+
+    public void StartGame()
+    {
+        SceneManager.LoadScene(1);
+    }
+
+    public void EndGame()
+    {
+        Application.Quit();
+    }
 }
