@@ -48,8 +48,6 @@ public class SpawnManager : MonoBehaviour
             _maximumTimeToWait = _minimumTimeToWait + 1;
             Debug.LogWarning("Time values changed due to an invalid configured timer!");
         }
-        
-        StartSpawning();
     }
 
     private void NullChecking()
@@ -68,7 +66,7 @@ public class SpawnManager : MonoBehaviour
         
     }
 
-    private void StartSpawning()
+    public void StartSpawning()
     {
         StartCoroutine(EnemySpawnRoutine());
         StartCoroutine(PowerUpSpawnRoutine());
@@ -76,6 +74,8 @@ public class SpawnManager : MonoBehaviour
 
     private IEnumerator EnemySpawnRoutine()
     {
+        yield return new WaitForSeconds(3.0f);
+        
         while (_stopSpawning == false)
         {
             float randomX = Random.Range(_leftEnemyBorder.transform.position.x, _rightEnemyBorder.transform.position.x);

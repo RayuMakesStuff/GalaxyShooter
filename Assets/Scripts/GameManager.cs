@@ -27,7 +27,7 @@ public class GameManager : MonoBehaviour
     private void NullChecking()
     {
         if (_uiManager == null)
-            Debug.LogError("'_uiManager' us NULL! Have you named the game object 'UI_Manager'?");
+            Debug.LogError("'_uiManager' us NULL! Have you named the game object 'UIManager'?");
     }
 
     private void Update()

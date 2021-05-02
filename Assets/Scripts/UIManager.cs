@@ -16,6 +16,9 @@ public class UIManager : MonoBehaviour
     [SerializeField] private Text _gameOverText;
     [SerializeField] private Text _restartGameText;
 
+    [Header("Instructions")] 
+    [SerializeField] private Text _howToStartText;
+
     [Header("Game Objects")]
     private Player _player;
     private GameManager _gameManager;
@@ -44,6 +47,11 @@ public class UIManager : MonoBehaviour
         _gameOverStorage.gameObject.SetActive(false);
         _gameOverText.gameObject.SetActive(false);
         _restartGameText.gameObject.SetActive(false);
+    }
+
+    public void DisableInstructionsText()
+    {
+        _howToStartText.gameObject.SetActive(false);
     }
 
     private IEnumerator GameOverSequence()
