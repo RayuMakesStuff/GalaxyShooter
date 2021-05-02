@@ -6,7 +6,8 @@ public class Player : MonoBehaviour
 {
     [Header("Player Properties")] 
     [SerializeField][Range(2.0f, 15.0f)] private float _speed = 4.0f;
-    [SerializeField] [Range(0, 5)] private int _lives = 3; 
+    [SerializeField][Range(0, 5)] private int _lives = 3; 
+    [SerializeField][Range(1.0f, 5.0f)] private float _shiftSpeedBoost = 3.5f;
     [SerializeField][Range(0.2f, 1.0f)] private float _laserOffset;
     
     [Header("Damage Indicators")]
@@ -19,6 +20,11 @@ public class Player : MonoBehaviour
     private Transform _rightPlayerBorder;
     private Transform _topPlayerBorder;
     private Transform _bottomPlayerBorder;
+    
+    [Header("Debug Values")] 
+    private float _startSpeedValue;
+    // start speed value to save the initial speed value
+    // -> prevent shift speed boost to interfere 
 
     [Header("Game Objects")]
     [SerializeField] private GameObject _laserPrefab;
@@ -38,8 +44,8 @@ public class Player : MonoBehaviour
 
     [Header("Speed Boost")]
     [SerializeField][Range(2.0f, 10.0f)] private float _speedBoostDuration;
-    private float _startSpeedValue;
     private bool _isSpeedBoostActive;
+    private bool _shiftSpeedBoostActive = false;
     
     [Header("Audio and Sound Effects")]
     [SerializeField] private AudioClip _laserFireSound;
@@ -66,6 +72,7 @@ public class Player : MonoBehaviour
         Movement();
         PlayerBorders();
         InstantiateLaser();
+        ShiftSpeedBoost();
     }
 
     private void FindGameObjects()
@@ -177,6 +184,21 @@ public class Player : MonoBehaviour
         }
     }
     
+    private void ShiftSpeedBoost()
+    {
+        if (_isSpeedBoostActive == false && Input.GetKeyDown(KeyCode.LeftShift) && _shiftSpeedBoostActive == false)
+        {
+            _shiftSpeedBoostActive = true;
+            _speed += _shiftSpeedBoost;
+        }
+
+        if (Input.GetKeyUp(KeyCode.LeftShift) && _shiftSpeedBoostActive)
+        {
+            _speed -= _shiftSpeedBoost;
+            _shiftSpeedBoostActive = false;
+        }
+    }
+    
     private void UpdateDamageVisualizer()
     {
         switch (_lives)
@@ -220,6 +242,8 @@ public class Player : MonoBehaviour
     private IEnumerator SpeedBoostRoutine()
     {
         _isSpeedBoostActive = true; 
+        _speed = _startSpeedValue;
+        _shiftSpeedBoostActive = false; // Disable the ShiftSpeedBoost()
         _speed = 10;
         yield return new WaitForSeconds(_speedBoostDuration);
         _speed = _startSpeedValue;
