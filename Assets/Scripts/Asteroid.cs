@@ -13,6 +13,7 @@ public class Asteroid : MonoBehaviour
     [SerializeField] private GameObject _explosionPrefab;
     private SpawnManager _spawnManager;
     private UIManager _uiManager;
+    private Player _player;
 
     [Header("Audio and Sound Effects")]
     [SerializeField] private AudioClip _explosionSound;
@@ -39,6 +40,8 @@ public class Asteroid : MonoBehaviour
             Instantiate(_explosionPrefab, transform.position, Quaternion.identity);
             Destroy(other.gameObject);
             _uiManager.DisableInstructionsText();
+            _uiManager.EnableUITextElements();
+            _player.SetMaximumAmmo();
             _spawnManager.StartSpawning(); // Start the enemy and PowerUp spawning coroutines
             Destroy(this.gameObject, 0.25f);
             _audioSource.Play();
@@ -50,6 +53,7 @@ public class Asteroid : MonoBehaviour
         _spawnManager = GameObject.Find("SpawnManager").GetComponent<SpawnManager>();
         _audioSource = GameObject.Find("Explosion_AudioManager").GetComponent<AudioSource>();
         _uiManager = GameObject.Find("UIManager").GetComponent<UIManager>();
+        _player = GameObject.Find("Player").GetComponent<Player>();
     }
 
     private void NullChecking()

@@ -18,6 +18,10 @@ public class UIManager : MonoBehaviour
 
     [Header("Instructions")] 
     [SerializeField] private Text _howToStartText;
+    
+    [Header("Ammunition")] 
+    [SerializeField] private Text _currentAmmoCountText;
+    [SerializeField] private Text _maximumAmmoCountText;
 
     [Header("Game Objects")]
     private Player _player;
@@ -34,24 +38,55 @@ public class UIManager : MonoBehaviour
     private void Update()
     {
         _scoreText.text = "Score: " + _player.GetScore();
+        _currentAmmoCountText.text = "Ammo: " + _player.GetCurrentAmmo();
+        _maximumAmmoCountText.text = " / " + _player.GetMaximumAmmoAmount();
+        
+        ChangeAmmoTextColor();
     }
     
     private void FindGameObjects()
     {
         _player = GameObject.Find("Player").GetComponent<Player>();
         _gameManager = GameObject.Find("GameManager").GetComponent<GameManager>();
+        _currentAmmoCountText = GameObject.Find("CurrentAmmo_text").GetComponent<Text>();
+        _maximumAmmoCountText = GameObject.Find("MaximumAmmo_text").GetComponent<Text>();
     }
 
     private void DisableGameObjectsOnStart()
     {
+        _scoreText.gameObject.SetActive(false);
         _gameOverStorage.gameObject.SetActive(false);
         _gameOverText.gameObject.SetActive(false);
         _restartGameText.gameObject.SetActive(false);
+        _currentAmmoCountText.gameObject.SetActive(false);
+        _maximumAmmoCountText.gameObject.SetActive(false);  
     }
 
     public void DisableInstructionsText()
     {
         _howToStartText.gameObject.SetActive(false);
+    }
+
+    public void EnableUITextElements()
+    {
+        _currentAmmoCountText.gameObject.SetActive(true);
+        _maximumAmmoCountText.gameObject.SetActive(true); 
+        _scoreText.gameObject.SetActive(true);
+    }
+    
+    private void ChangeAmmoTextColor()
+    {
+        if (_player.GetCurrentAmmo() <= 5)
+        {
+            _currentAmmoCountText.color = Color.red;
+            _maximumAmmoCountText.color = Color.red;
+        }
+        
+        else if (_player.GetCurrentAmmo() > 5)
+        {
+            _currentAmmoCountText.color = Color.white;
+            _maximumAmmoCountText.color = Color.white;
+        }
     }
 
     private IEnumerator GameOverSequence()

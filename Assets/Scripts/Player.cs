@@ -9,6 +9,8 @@ public class Player : MonoBehaviour
     [SerializeField][Range(0, 5)] private int _lives = 3; 
     [SerializeField][Range(1.0f, 5.0f)] private float _shiftSpeedBoost = 3.5f;
     [SerializeField][Range(0.2f, 1.0f)] private float _laserOffset;
+    private int _currentAmmo;
+    [SerializeField][Range(10, 20)] private int _maximumAllowedAmmo = 15;
     
     [Header("Damage Indicators")]
     [SerializeField] private GameObject _leftDamageVisualizer;
@@ -64,6 +66,8 @@ public class Player : MonoBehaviour
         UpdateDamageVisualizer();
 
         _startSpeedValue = _speed;
+        _currentAmmo = _maximumAllowedAmmo;
+        _score = 0;
         _uiManager.UpdateLives(_lives);
     }
 
@@ -144,21 +148,21 @@ public class Player : MonoBehaviour
 
     private void InstantiateLaser()
     {
-        if (Input.GetKeyDown(KeyCode.Space) && Time.time > _nextFire)
+        if (Input.GetKeyDown(KeyCode.Space) && Time.time > _nextFire && _currentAmmo > 0)
         {
             if (_isTripleShotActive)
             {
-                Instantiate(_tripleLaserPrefab, transform.position + (_tripleLaserPrefab.transform.up * _laserOffset),
-                    Quaternion.identity);
+                Instantiate(_tripleLaserPrefab, transform.position + (_tripleLaserPrefab.transform.up * _laserOffset), Quaternion.identity);
             }
             
             else
             {
-                Instantiate(_laserPrefab, transform.position + (_laserPrefab.transform.up * _laserOffset),
-                    Quaternion.identity);
+                Instantiate(_laserPrefab, transform.position + (_laserPrefab.transform.up * _laserOffset), Quaternion.identity);
             }
+            
             // Cooldown System
             _nextFire = _cooldownTime + Time.time;
+            _currentAmmo--;
             _audioSource.clip = _laserFireSound;
             _audioSource.Play();
         }
@@ -264,5 +268,20 @@ public class Player : MonoBehaviour
     public int GetScore()
     {
         return _score;
+    }
+
+    public void SetMaximumAmmo()
+    {
+        _currentAmmo = _maximumAllowedAmmo;
+    }
+    
+    public int GetCurrentAmmo()
+    {
+        return _currentAmmo;
+    }
+
+    public int GetMaximumAmmoAmount()
+    {
+        return _maximumAllowedAmmo;
     }
 }
