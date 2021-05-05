@@ -38,6 +38,10 @@ public class Player : MonoBehaviour
     [Header("Laser Cooldown System")]
     [SerializeField] [Range(0.1f, 1.5f)] private float _cooldownTime = 0.25f;
     private float _nextFire = 0.0f;
+
+    [Header("NoAmmo Sound - Cooldown System")] 
+    [SerializeField] [Range(0.4f, 0.6f)] private float _playbackCooldownTime = 0.5f;
+    private float _nextPlayback = 0.0f;
     
     [Header("Triple Shot")]
     [SerializeField][Range(2.0f, 10.0f)] private float _tripleShotDuration = 5.0f;
@@ -51,7 +55,12 @@ public class Player : MonoBehaviour
     
     [Header("Audio and Sound Effects")]
     [SerializeField] private AudioClip _laserFireSound;
+    [SerializeField] private AudioClip _noAmmoSound;
+    [SerializeField] private AudioClip _gameOverSound;
     private AudioSource _audioSource;
+    private AudioSource _backgroundAudioSource;
+    private AudioSource _noAmmoAudioSource;
+    private AudioSource _gameOverAudioSource;
     
     [Header("UI Elements")] 
     private int _score;
@@ -89,6 +98,9 @@ public class Player : MonoBehaviour
         _spawnManager = GameObject.Find("SpawnManager").GetComponent<SpawnManager>();
         _uiManager = GameObject.Find("UIManager").GetComponent<UIManager>();
         _audioSource = GetComponent<AudioSource>();
+        _backgroundAudioSource = GameObject.Find("BackgroundMusic_AudioManager").GetComponent<AudioSource>();
+        _noAmmoAudioSource = GameObject.Find("NoAmmo_AudioManager").GetComponent<AudioSource>();
+        _gameOverAudioSource = GameObject.Find("GameOver_AudioManager").GetComponent<AudioSource>();
     }
 
     private void NullChecking()
@@ -110,9 +122,6 @@ public class Player : MonoBehaviour
 
         if (_spawnManager == null)
             Debug.LogError("'_spawnManager' is NULL! Have you named the GameObject 'SpawnManager'?");
-        
-        if (_audioSource == null)
-            Debug.LogError("'_audioSource' is NULL! Have you added a 'Audio Source' component?");
     }
 
     private void ResetSpawnPosition()
@@ -165,7 +174,22 @@ public class Player : MonoBehaviour
             _currentAmmo--;
             _audioSource.clip = _laserFireSound;
             _audioSource.Play();
+            
+            if (_currentAmmo == 0) // Play sound when ammo reaches 0
+            {
+                _audioSource.clip = _noAmmoSound;
+                _audioSource.Play();
+            }
         }
+
+        if (Input.GetKeyDown(KeyCode.Space) && _currentAmmo <= 0 && Time.time > _nextPlayback)
+        {
+            _nextPlayback = _playbackCooldownTime + Time.time;
+            _noAmmoAudioSource.clip = _noAmmoSound;
+            _noAmmoAudioSource.Play();
+        }
+
+
     }
 
     public void Damage()
@@ -185,6 +209,9 @@ public class Player : MonoBehaviour
         {
             Destroy(this.gameObject);
             _spawnManager.OnPlayerDeath();
+            _backgroundAudioSource.Stop();
+            _gameOverAudioSource.clip = _gameOverSound;
+            _gameOverAudioSource.Play();
         }
     }
     
