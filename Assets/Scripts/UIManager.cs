@@ -21,7 +21,11 @@ public class UIManager : MonoBehaviour
     
     [Header("Ammunition")] 
     [SerializeField] private Text _currentAmmoCountText;
-    [SerializeField] private Text _maximumAmmoCountText;
+    [SerializeField] private Text _maximumAmmoCountText;    
+    
+    [Header("Ammunition")] 
+    [SerializeField] private Text _currentShieldsText;
+    [SerializeField] private Text _maximumshieldsText;
 
     [Header("Game Objects")]
     private Player _player;
@@ -40,6 +44,8 @@ public class UIManager : MonoBehaviour
         _scoreText.text = "Score: " + _player.GetScore();
         _currentAmmoCountText.text = "Ammo: " + _player.GetCurrentAmmo();
         _maximumAmmoCountText.text = " / " + _player.GetMaximumAmmoAmount();
+        _currentShieldsText.text = "Shields: " + _player.GetCurrentShieldCounter();
+        _maximumshieldsText.text = " / 3";
         
         ChangeAmmoTextColor();
     }
@@ -50,6 +56,8 @@ public class UIManager : MonoBehaviour
         _gameManager = GameObject.Find("GameManager").GetComponent<GameManager>();
         _currentAmmoCountText = GameObject.Find("CurrentAmmo_text").GetComponent<Text>();
         _maximumAmmoCountText = GameObject.Find("MaximumAmmo_text").GetComponent<Text>();
+        _currentShieldsText = GameObject.Find("CurrentShields_text").GetComponent<Text>();
+        _maximumshieldsText = GameObject.Find("MaximumShields_text").GetComponent<Text>();
     }
 
     private void DisableGameObjectsOnStart()
@@ -59,7 +67,9 @@ public class UIManager : MonoBehaviour
         _gameOverText.gameObject.SetActive(false);
         _restartGameText.gameObject.SetActive(false);
         _currentAmmoCountText.gameObject.SetActive(false);
-        _maximumAmmoCountText.gameObject.SetActive(false);  
+        _maximumAmmoCountText.gameObject.SetActive(false);
+        _currentShieldsText.gameObject.SetActive(false);
+        _maximumshieldsText.gameObject.SetActive(false);  
     }
 
     public void DisableInstructionsText()
@@ -71,6 +81,8 @@ public class UIManager : MonoBehaviour
     {
         _currentAmmoCountText.gameObject.SetActive(true);
         _maximumAmmoCountText.gameObject.SetActive(true); 
+        _currentShieldsText.gameObject.SetActive(true);
+        _maximumshieldsText.gameObject.SetActive(true);  
         _scoreText.gameObject.SetActive(true);
     }
     

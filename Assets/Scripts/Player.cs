@@ -53,6 +53,9 @@ public class Player : MonoBehaviour
     private bool _isSpeedBoostActive;
     private bool _shiftSpeedBoostActive = false;
     
+    [Header("Shield")]
+    private int _shieldCounter = 0;
+    
     [Header("Audio and Sound Effects")]
     [SerializeField] private AudioClip _laserFireSound;
     [SerializeField] private AudioClip _noAmmoSound;
@@ -196,11 +199,18 @@ public class Player : MonoBehaviour
     {
         if (_isShieldActive)
         {
-            _isShieldActive = false; 
-            _shieldVisualizer.gameObject.SetActive(false);
+            _shieldCounter--;
+            UpdateShieldVisualizer();
+            
+            if (_shieldCounter == 0)
+            {
+                _isShieldActive = false; 
+                _shieldVisualizer.gameObject.SetActive(false);
+            }
+
             return;
         }
-    
+
         _lives--;
         _uiManager.UpdateLives(_lives);
         UpdateDamageVisualizer();
@@ -284,7 +294,32 @@ public class Player : MonoBehaviour
     public void ActivateShield()
     {
         _isShieldActive = true;
-        _shieldVisualizer.gameObject.SetActive(true); 
+        _shieldVisualizer.gameObject.SetActive(true);
+        _shieldCounter++;
+        UpdateShieldVisualizer();
+
+        if (_shieldCounter > 3)
+            _shieldCounter = 3;
+    }
+
+    private void UpdateShieldVisualizer()
+    {
+        switch (_shieldCounter)
+        {
+            case 3:
+                _shieldVisualizer.GetComponent<SpriteRenderer>().color = new Color(1, 1, 1, 1);
+                break;
+            case 2:
+                _shieldVisualizer.GetComponent<SpriteRenderer>().color = new Color(1, 1, 1, (float) 0.6);
+                break;
+            case 1:
+                _shieldVisualizer.GetComponent<SpriteRenderer>().color = new Color(1, 1, 1, (float) 0.3);
+                break;
+            case 0:
+                _isShieldActive = false; 
+                _shieldVisualizer.gameObject.SetActive(false);
+                break;
+        }
     }
     
     public void AddScore(int pointsToAdd)
@@ -310,5 +345,10 @@ public class Player : MonoBehaviour
     public int GetMaximumAmmoAmount()
     {
         return _maximumAllowedAmmo;
+    }
+    
+    public int GetCurrentShieldCounter()
+    {
+        return _shieldCounter;
     }
 }
