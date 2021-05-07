@@ -23,7 +23,7 @@ public class UIManager : MonoBehaviour
     [SerializeField] private Text _currentAmmoCountText;
     [SerializeField] private Text _maximumAmmoCountText;    
     
-    [Header("Ammunition")] 
+    [Header("Shields")] 
     [SerializeField] private Text _currentShieldsText;
     [SerializeField] private Text _maximumshieldsText;
 

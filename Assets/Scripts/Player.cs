@@ -191,8 +191,6 @@ public class Player : MonoBehaviour
             _noAmmoAudioSource.clip = _noAmmoSound;
             _noAmmoAudioSource.Play();
         }
-
-
     }
 
     public void Damage()
@@ -350,5 +348,19 @@ public class Player : MonoBehaviour
     public int GetCurrentShieldCounter()
     {
         return _shieldCounter;
+    }
+    
+    public void AddAmmo(int ammoToAdd)
+    {
+        _currentAmmo += ammoToAdd;
+        ResetMaximumAmmo();
+    }
+    
+    private void ResetMaximumAmmo()
+    {
+        if (_currentAmmo >= _maximumAllowedAmmo)
+        {
+            _currentAmmo = _maximumAllowedAmmo;
+        }
     }
 }

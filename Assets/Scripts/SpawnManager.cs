@@ -90,7 +90,7 @@ public class SpawnManager : MonoBehaviour
         while (_stopSpawning == false)
         {
             float randomX = Random.Range(_leftEnemyBorder.transform.position.x, _rightEnemyBorder.transform.position.x);
-            int powerUpID = Random.Range(0, _powerUps.Length);
+            int powerUpID = Random.Range(2, 4);
             Instantiate(_powerUps[powerUpID], new Vector3(randomX, _topEnemyBorder.position.y, 0), Quaternion.identity);
             yield return new WaitForSeconds(Random.Range(10.0f, 30.0f));
         }
