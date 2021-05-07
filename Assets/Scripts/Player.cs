@@ -237,8 +237,8 @@ public class Player : MonoBehaviour
             _shiftSpeedBoostActive = false;
         }
     }
-    
-    private void UpdateDamageVisualizer()
+
+    public void UpdateDamageVisualizer()
     {
         switch (_lives)
         {
@@ -362,5 +362,20 @@ public class Player : MonoBehaviour
         {
             _currentAmmo = _maximumAllowedAmmo;
         }
+    }
+    
+    public void AddLive() 
+    { 
+        if (_lives < 3) 
+        {
+                _lives++;
+        }
+    
+        GetLives();
+    }
+
+    public int GetLives()
+    {
+        return _lives;
     }
 }

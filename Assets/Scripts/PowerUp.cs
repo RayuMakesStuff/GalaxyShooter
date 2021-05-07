@@ -15,6 +15,7 @@ public class PowerUp : MonoBehaviour
     
     private Transform _powerUpDestroyPoint;
     private Player _player;
+    private UIManager _uiManager;
 
 
     // ======================================================
@@ -34,6 +35,7 @@ public class PowerUp : MonoBehaviour
         _player = GameObject.FindGameObjectWithTag("Player").GetComponent<Player>();
         _powerUpDestroyPoint = GameObject.Find("EnemyDestroyPosition").transform;
         _audioSource = GameObject.Find("PowerUp_AudioManager").GetComponent<AudioSource>();
+        _uiManager = GameObject.Find("UIManager").GetComponent<UIManager>();
     }
 
     private void NullChecking()
@@ -79,6 +81,11 @@ public class PowerUp : MonoBehaviour
                     break;
                 case 3:
                     _player.AddAmmo(15);
+                    break;
+                case 4: // HP+
+                    _player.AddLive();
+                    _uiManager.UpdateLives(_player.GetLives());
+                    _player.UpdateDamageVisualizer();
                     break;
                 default:
                     Debug.LogWarning("Invalid powerup ID!");
