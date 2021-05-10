@@ -2,6 +2,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using Random = UnityEngine.Random;
 
 public class PowerUp : MonoBehaviour
 {
@@ -12,10 +13,11 @@ public class PowerUp : MonoBehaviour
     [Header("Audio")] 
     [SerializeField] private AudioClip _powerUpCollectionSound;
     private AudioSource _audioSource;
-    
+
     private Transform _powerUpDestroyPoint;
     private Player _player;
     private UIManager _uiManager;
+    private SpawnManager _spawnManager;
 
 
     // ======================================================
@@ -36,6 +38,7 @@ public class PowerUp : MonoBehaviour
         _powerUpDestroyPoint = GameObject.Find("EnemyDestroyPosition").transform;
         _audioSource = GameObject.Find("PowerUp_AudioManager").GetComponent<AudioSource>();
         _uiManager = GameObject.Find("UIManager").GetComponent<UIManager>();
+        _spawnManager = GameObject.FindObjectOfType<SpawnManager>();
     }
 
     private void NullChecking()
@@ -67,7 +70,7 @@ public class PowerUp : MonoBehaviour
             Destroy(this.gameObject);
             _audioSource.clip = _powerUpCollectionSound;
             _audioSource.Play();
-
+            
             switch (_powerUpID)
             {
                 case 0:

@@ -90,8 +90,23 @@ public class SpawnManager : MonoBehaviour
         while (_stopSpawning == false)
         {
             float randomX = Random.Range(_leftEnemyBorder.transform.position.x, _rightEnemyBorder.transform.position.x);
-            int powerUpID = Random.Range(0, _powerUps.Length);
-            Instantiate(_powerUps[powerUpID], new Vector3(randomX, _topEnemyBorder.position.y, 0), Quaternion.identity);
+            
+            int _powerUpSelectorNumber = Random.Range(0, 101);
+            Debug.Log(_powerUpSelectorNumber);
+
+            if (_powerUpSelectorNumber >= 0 && _powerUpSelectorNumber <= 70)
+            {
+                int _randomPowerUp = Random.Range(0, 4);
+                Debug.Log(_randomPowerUp);
+
+                Instantiate(_powerUps[_randomPowerUp], new Vector3(randomX, _topEnemyBorder.position.y, 0), Quaternion.identity);
+            }
+            
+            else if (_powerUpSelectorNumber > 70)
+            {
+                Instantiate(_powerUps[4]);
+            }
+
             yield return new WaitForSeconds(Random.Range(10.0f, 30.0f));
         }
     }

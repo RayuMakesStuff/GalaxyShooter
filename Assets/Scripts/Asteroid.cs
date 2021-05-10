@@ -1,5 +1,3 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 [RequireComponent(typeof(Rigidbody2D))]
@@ -29,7 +27,6 @@ public class Asteroid : MonoBehaviour
 
     private void Update()
     {
-        // rotate on the z axis with given speed
         transform.Rotate(Vector3.forward * (_rotationSpeed * Time.deltaTime));
     }
 

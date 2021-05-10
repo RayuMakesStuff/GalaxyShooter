@@ -366,12 +366,8 @@ public class Player : MonoBehaviour
     
     public void AddLive() 
     { 
-        if (_lives < 3) 
-        {
-                _lives++;
-        }
-    
-        GetLives();
+        if (_lives < 3)
+            _lives++;
     }
 
     public int GetLives()
