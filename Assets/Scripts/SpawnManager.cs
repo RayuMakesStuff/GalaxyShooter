@@ -89,25 +89,55 @@ public class SpawnManager : MonoBehaviour
         
         while (_stopSpawning == false)
         {
-            float randomX = Random.Range(_leftEnemyBorder.transform.position.x, _rightEnemyBorder.transform.position.x);
-            
-            int _powerUpSelectorNumber = Random.Range(0, 101);
-            Debug.Log(_powerUpSelectorNumber);
-
-            if (_powerUpSelectorNumber >= 0 && _powerUpSelectorNumber <= 70)
-            {
-                int _randomPowerUp = Random.Range(0, 4);
-                Debug.Log(_randomPowerUp);
-
-                Instantiate(_powerUps[_randomPowerUp], new Vector3(randomX, _topEnemyBorder.position.y, 0), Quaternion.identity);
-            }
-            
-            else if (_powerUpSelectorNumber > 70)
-            {
-                Instantiate(_powerUps[4]);
-            }
+            SelectRandomPowerUp();
 
             yield return new WaitForSeconds(Random.Range(10.0f, 30.0f));
+        }
+    }
+
+    private void SelectRandomPowerUp()
+    {
+        float randomX = Random.Range(_leftEnemyBorder.transform.position.x, _rightEnemyBorder.transform.position.x);
+        
+        int total = 0;
+
+        int[] powerUpLootTable =
+        {
+           45, // Ammo+
+           25, // Speed
+           15, // Shield
+           10, // TripleShot
+           5   // HP+
+        };
+
+        int[] powerUpReward =
+        {
+            3, // Ammo+
+            1, // Speed
+            2, // Shield
+            0, // TripleShot
+            4  // HP+
+        };
+
+        foreach (var item in powerUpLootTable)
+        {
+            total += item;
+        }
+
+        int randomNumber = Random.Range(0, total + 1);
+        var i = 0;
+
+        foreach (var weight in powerUpLootTable)
+        {
+            if (randomNumber <= weight)
+            {
+                var powerUpToSpawn = powerUpReward[i];
+                Instantiate(_powerUps[powerUpToSpawn], new Vector3(randomX, _topEnemyBorder.position.y,0),  Quaternion.identity);
+                return;
+            }
+
+            i++;
+            randomNumber -= weight;
         }
     }
     

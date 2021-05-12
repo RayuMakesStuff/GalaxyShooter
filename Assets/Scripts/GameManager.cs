@@ -7,6 +7,7 @@ public class GameManager : MonoBehaviour
 {
     [Header("Check Values")]
     private bool _isGameOver;
+    private bool _isGamePaused;
 
     [Header("Game Objects")]
     private UIManager _uiManager;
@@ -34,9 +35,8 @@ public class GameManager : MonoBehaviour
     {
         if (Input.GetKeyDown(KeyCode.R) && _isGameOver)
             SceneManager.LoadScene(1);
-
-        if (Input.GetKeyDown(KeyCode.Escape))
-            EndGame();
+        
+        PauseGame();
     }
 
     public void GameOver()
@@ -52,5 +52,20 @@ public class GameManager : MonoBehaviour
     public void EndGame()
     {
         Application.Quit();
+    }
+
+    private void PauseGame()
+    {
+        if (Input.GetKeyDown(KeyCode.C))
+        {
+            _isGamePaused = true;
+            _uiManager.OnGamePause();
+        }
+        
+        if (_isGamePaused && Input.GetKeyDown(KeyCode.Escape))
+        {
+            _uiManager.OnGameContinue();
+            _isGamePaused = false;
+        }
     }
 }

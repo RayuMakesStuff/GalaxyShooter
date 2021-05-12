@@ -26,6 +26,9 @@ public class UIManager : MonoBehaviour
     [Header("Shields")] 
     [SerializeField] private Text _currentShieldsText;
     [SerializeField] private Text _maximumshieldsText;
+    
+    [Header("Pause System")]
+    [SerializeField] private GameObject _pauseGameTextStorage;
 
     [Header("Game Objects")]
     private Player _player;
@@ -69,7 +72,8 @@ public class UIManager : MonoBehaviour
         _currentAmmoCountText.gameObject.SetActive(false);
         _maximumAmmoCountText.gameObject.SetActive(false);
         _currentShieldsText.gameObject.SetActive(false);
-        _maximumshieldsText.gameObject.SetActive(false);  
+        _maximumshieldsText.gameObject.SetActive(false); 
+        _pauseGameTextStorage.gameObject.SetActive(false);
     }
 
     public void DisableInstructionsText()
@@ -135,5 +139,17 @@ public class UIManager : MonoBehaviour
                 _gameManager.GameOver();
                 break;
         }
+    }
+    
+    public void OnGamePause()
+    {
+        Time.timeScale = 0;
+        _pauseGameTextStorage.gameObject.SetActive(true);
+    }
+
+    public void OnGameContinue()
+    {
+        Time.timeScale = 1;
+        _pauseGameTextStorage.gameObject.SetActive(false);
     }
 }
