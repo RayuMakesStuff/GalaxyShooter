@@ -68,6 +68,8 @@ public class Player : MonoBehaviour
     [Header("UI Elements")] 
     private int _score;
 
+    private CameraShake _cameraShake;
+
     // ========================================================
 
     private void Start()
@@ -81,6 +83,8 @@ public class Player : MonoBehaviour
         _currentAmmo = _maximumAllowedAmmo;
         _score = 0;
         _uiManager.UpdateLives(_lives);
+
+        _cameraShake = GameObject.Find("Main Camera").GetComponent<CameraShake>();
     }
 
     private void Update()
@@ -195,6 +199,8 @@ public class Player : MonoBehaviour
 
     public void Damage()
     {
+        StartCoroutine(_cameraShake.Shake(0.5f, 0.5f));
+        
         if (_isShieldActive)
         {
             _shieldCounter--;
@@ -211,6 +217,7 @@ public class Player : MonoBehaviour
 
         _lives--;
         _uiManager.UpdateLives(_lives);
+        
         UpdateDamageVisualizer();
 
         if (_lives <= 0)
