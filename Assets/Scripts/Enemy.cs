@@ -14,10 +14,15 @@ public class Enemy : MonoBehaviour
     private Player _player;
     private Animator _animator;
     private BoxCollider2D _boxCollider2D;
+    [SerializeField] private GameObject _laserPrefab;
     
     [Header("Audio and Sound Effects")]
     [SerializeField] private AudioClip _explosionSound;
     private AudioSource _audioSource;
+
+    [Header("Cooldown System")] 
+    private float _canFire = -1.0f;
+    private float _coolDownTime = 3.0f;
 
     // ====================================================================
     
@@ -30,6 +35,19 @@ public class Enemy : MonoBehaviour
     private void Update()
     {
         Movement();
+
+        if (Time.time > _canFire)
+        {
+            _coolDownTime = Random.Range(3.0f, 7.0f);
+            _canFire = Time.time + _coolDownTime;
+            var enemyLaser = Instantiate(_laserPrefab, transform.position, Quaternion.identity);
+            Laser[] lasers = enemyLaser.GetComponentsInChildren<Laser>();
+
+            for (var i = 0; i < lasers.Length; i++)
+            {
+                lasers[i].AssignEnemyLaser();
+            }
+        }
     }
 
     private void FindGameObjects()

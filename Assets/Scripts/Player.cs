@@ -1,19 +1,20 @@
 using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 public class Player : MonoBehaviour
 {
-    [Header("Player Properties")] 
-    [SerializeField][Range(2.0f, 15.0f)] private float _speed = 4.0f;
-    [SerializeField][Range(0, 5)] private int _lives = 3; 
-    [SerializeField][Range(1.0f, 5.0f)] private float _shiftSpeedBoost = 3.5f;
-    [SerializeField][Range(0.2f, 1.0f)] private float _laserOffset;
+    [Header("Player Properties")] [SerializeField] [Range(2.0f, 15.0f)]
+    private float _speed = 4.0f;
+
+    [SerializeField] [Range(0, 5)] private int _lives = 3;
+    [SerializeField] [Range(1.0f, 5.0f)] private float _shiftSpeedBoost = 3.5f;
+    [SerializeField] [Range(0.2f, 1.0f)] private float _laserOffset;
     private int _currentAmmo;
-    [SerializeField][Range(10, 20)] private int _maximumAllowedAmmo = 15;
-    
-    [Header("Damage Indicators")]
-    [SerializeField] private GameObject _leftDamageVisualizer;
+    [SerializeField] [Range(10, 20)] private int _maximumAllowedAmmo = 15;
+
+    [Header("Damage Indicators")] [SerializeField]
+    private GameObject _leftDamageVisualizer;
+
     [SerializeField] private GameObject _rightDamageVisualizer;
 
     [Header("Position Data")] 
@@ -22,52 +23,57 @@ public class Player : MonoBehaviour
     private Transform _rightPlayerBorder;
     private Transform _topPlayerBorder;
     private Transform _bottomPlayerBorder;
-    
+
     [Header("Debug Values")] 
     private float _startSpeedValue;
     // start speed value to save the initial speed value
     // -> prevent shift speed boost to interfere 
 
-    [Header("Game Objects")]
-    [SerializeField] private GameObject _laserPrefab;
+    [Header("Game Objects")] [SerializeField]
+    private GameObject _laserPrefab;
+
     [SerializeField] private GameObject _shieldVisualizer;
     private SpawnManager _spawnManager;
     private UIManager _uiManager;
     private bool _isShieldActive;
 
-    [Header("Laser Cooldown System")]
-    [SerializeField] [Range(0.1f, 1.5f)] private float _cooldownTime = 0.25f;
-    private float _nextFire = 0.0f;
+    [Header("Laser Cooldown System")] 
+    [SerializeField] [Range(0.1f, 1.5f)]
+    private float _cooldownTime = 0.25f;
+
+    private float _nextFire;
 
     [Header("NoAmmo Sound - Cooldown System")] 
-    [SerializeField] [Range(0.4f, 0.6f)] private float _playbackCooldownTime = 0.5f;
-    private float _nextPlayback = 0.0f;
-    
-    [Header("Triple Shot")]
-    [SerializeField][Range(2.0f, 10.0f)] private float _tripleShotDuration = 5.0f;
+    [SerializeField] [Range(0.4f, 0.6f)]
+    private float _playbackCooldownTime = 0.5f;
+
+    private float _nextPlayback;
+
+    [Header("Triple Shot")] 
+    [SerializeField] [Range(2.0f, 10.0f)]
+    private float _tripleShotDuration = 5.0f;
     private bool _isTripleShotActive;
     [SerializeField] private GameObject _tripleLaserPrefab;
 
-    [Header("Speed Boost")]
-    [SerializeField][Range(2.0f, 10.0f)] private float _speedBoostDuration;
+    [Header("Speed Boost")] [SerializeField] [Range(2.0f, 10.0f)]
+    private float _speedBoostDuration;
     private bool _isSpeedBoostActive;
-    private bool _shiftSpeedBoostActive = false;
-    
-    [Header("Shield")]
-    private int _shieldCounter = 0;
-    
-    [Header("Audio and Sound Effects")]
-    [SerializeField] private AudioClip _laserFireSound;
+    private bool _shiftSpeedBoostActive;
+
+    [Header("Shield")] 
+    private int _shieldCounter;
+
+    [Header("Audio and Sound Effects")] [SerializeField]
+    private AudioClip _laserFireSound;
+
     [SerializeField] private AudioClip _noAmmoSound;
     [SerializeField] private AudioClip _gameOverSound;
     private AudioSource _audioSource;
     private AudioSource _backgroundAudioSource;
     private AudioSource _noAmmoAudioSource;
     private AudioSource _gameOverAudioSource;
-    
-    [Header("UI Elements")] 
-    private int _score;
 
+    [Header("UI Elements")] private int _score;
     private CameraShake _cameraShake;
 
     // ========================================================
@@ -77,14 +83,10 @@ public class Player : MonoBehaviour
         FindGameObjects();
         NullChecking();
         ResetSpawnPosition();
+        ResetValues();
         UpdateDamageVisualizer();
 
-        _startSpeedValue = _speed;
-        _currentAmmo = _maximumAllowedAmmo;
-        _score = 0;
         _uiManager.UpdateLives(_lives);
-
-        _cameraShake = GameObject.Find("Main Camera").GetComponent<CameraShake>();
     }
 
     private void Update()
@@ -108,6 +110,7 @@ public class Player : MonoBehaviour
         _backgroundAudioSource = GameObject.Find("BackgroundMusic_AudioManager").GetComponent<AudioSource>();
         _noAmmoAudioSource = GameObject.Find("NoAmmo_AudioManager").GetComponent<AudioSource>();
         _gameOverAudioSource = GameObject.Find("GameOver_AudioManager").GetComponent<AudioSource>();
+        _cameraShake = GameObject.Find("Main Camera").GetComponent<CameraShake>();
     }
 
     private void NullChecking()
@@ -117,12 +120,12 @@ public class Player : MonoBehaviour
 
         if (_topPlayerBorder == null)
             Debug.LogError("'_topPlayerBorder' is NULL! Have you named the GameObject 'PlayerBorder_top'?");
-        
+
         if (_rightPlayerBorder == null)
             Debug.LogError("'_rightPlayerBorder' is NULL! Have you named the GameObject 'PlayerBorder_right'?");
 
         if (_leftPlayerBorder == null)
-            Debug.LogError("'_leftPlayerBorder' is NULL! Have you named the GameObject 'PlayerBorder_left'?");
+            Debug.LogError("'leftPlayerBorder' is NULL! Have you named the GameObject 'PlayerBorder_left'?");
 
         if (_bottomPlayerBorder == null)
             Debug.LogError("'_bottomPlayerBorder' is NULL! Have you named the GameObject 'PlayerBorder_bottom'?");
@@ -133,13 +136,20 @@ public class Player : MonoBehaviour
 
     private void ResetSpawnPosition()
     {
-        transform.position = GameObject.Find("PlayerSpawnPosition").transform.position;
+        transform.position = _playerSpawnPosition.position;
+    }
+
+    private void ResetValues()
+    {
+        _startSpeedValue = _speed;
+        _currentAmmo = _maximumAllowedAmmo;
+        _score = 0;
     }
 
     private void Movement()
     {
-        float horizontalMovement = Input.GetAxis("Horizontal");
-        float verticalMovement = Input.GetAxis("Vertical");
+        var horizontalMovement = Input.GetAxis("Horizontal");
+        var verticalMovement = Input.GetAxis("Vertical");
 
         transform.Translate(new Vector3(horizontalMovement, verticalMovement, 0) * (_speed * Time.deltaTime));
     }
@@ -166,14 +176,18 @@ public class Player : MonoBehaviour
     {
         if (Input.GetKeyDown(KeyCode.Space) && Time.time > _nextFire && _currentAmmo > 0)
         {
-            if (_isTripleShotActive)
+            switch (_isTripleShotActive)
             {
-                Instantiate(_tripleLaserPrefab, transform.position + (_tripleLaserPrefab.transform.up * _laserOffset), Quaternion.identity);
-            }
-            
-            else
-            {
-                Instantiate(_laserPrefab, transform.position + (_laserPrefab.transform.up * _laserOffset), Quaternion.identity);
+                case true:
+                    Instantiate(_tripleLaserPrefab,
+                        transform.position + (_tripleLaserPrefab.transform.up * _laserOffset),
+                        Quaternion.identity);
+                    break;
+
+                case false:
+                    Instantiate(_laserPrefab, transform.position + (_laserPrefab.transform.up * _laserOffset),
+                        Quaternion.identity);
+                    break;
             }
             
             // Cooldown System
@@ -181,7 +195,7 @@ public class Player : MonoBehaviour
             _currentAmmo--;
             _audioSource.clip = _laserFireSound;
             _audioSource.Play();
-            
+
             if (_currentAmmo == 0) // Play sound when ammo reaches 0
             {
                 _audioSource.clip = _noAmmoSound;
@@ -200,15 +214,15 @@ public class Player : MonoBehaviour
     public void Damage()
     {
         StartCoroutine(_cameraShake.Shake(0.5f, 0.5f));
-        
+
         if (_isShieldActive)
         {
             _shieldCounter--;
             UpdateShieldVisualizer();
-            
+
             if (_shieldCounter == 0)
             {
-                _isShieldActive = false; 
+                _isShieldActive = false;
                 _shieldVisualizer.gameObject.SetActive(false);
             }
 
@@ -217,19 +231,19 @@ public class Player : MonoBehaviour
 
         _lives--;
         _uiManager.UpdateLives(_lives);
-        
+
         UpdateDamageVisualizer();
 
         if (_lives <= 0)
         {
-            Destroy(this.gameObject);
+            Destroy(gameObject);
             _spawnManager.OnPlayerDeath();
             _backgroundAudioSource.Stop();
             _gameOverAudioSource.clip = _gameOverSound;
             _gameOverAudioSource.Play();
         }
     }
-    
+
     private void ShiftSpeedBoost()
     {
         if (_isSpeedBoostActive == false && Input.GetKeyDown(KeyCode.LeftShift) && _shiftSpeedBoostActive == false)
@@ -253,14 +267,17 @@ public class Player : MonoBehaviour
                 _leftDamageVisualizer.gameObject.SetActive(false);
                 _rightDamageVisualizer.gameObject.SetActive(false);
                 break;
+
             case 2:
                 _leftDamageVisualizer.gameObject.SetActive(true);
                 _rightDamageVisualizer.gameObject.SetActive(false);
                 break;
+
             case 1:
                 _leftDamageVisualizer.gameObject.SetActive(true);
                 _rightDamageVisualizer.gameObject.SetActive(true);
                 break;
+
             default:
                 _leftDamageVisualizer.gameObject.SetActive(false);
                 _rightDamageVisualizer.gameObject.SetActive(false);
@@ -284,10 +301,10 @@ public class Player : MonoBehaviour
     {
         StartCoroutine(SpeedBoostRoutine());
     }
-    
+
     private IEnumerator SpeedBoostRoutine()
     {
-        _isSpeedBoostActive = true; 
+        _isSpeedBoostActive = true;
         _speed = _startSpeedValue;
         _shiftSpeedBoostActive = false; // Disable the ShiftSpeedBoost()
         _speed = 10;
@@ -295,7 +312,7 @@ public class Player : MonoBehaviour
         _speed = _startSpeedValue;
         _isSpeedBoostActive = false;
     }
-    
+
     public void ActivateShield()
     {
         _isShieldActive = true;
@@ -315,23 +332,23 @@ public class Player : MonoBehaviour
                 _shieldVisualizer.GetComponent<SpriteRenderer>().color = new Color(1, 1, 1, 1);
                 break;
             case 2:
-                _shieldVisualizer.GetComponent<SpriteRenderer>().color = new Color(1, 1, 1, (float) 0.6);
+                _shieldVisualizer.GetComponent<SpriteRenderer>().color = new Color(1, 1, 1, (float)0.6);
                 break;
             case 1:
-                _shieldVisualizer.GetComponent<SpriteRenderer>().color = new Color(1, 1, 1, (float) 0.3);
+                _shieldVisualizer.GetComponent<SpriteRenderer>().color = new Color(1, 1, 1, (float)0.3);
                 break;
             case 0:
-                _isShieldActive = false; 
+                _isShieldActive = false;
                 _shieldVisualizer.gameObject.SetActive(false);
                 break;
         }
     }
-    
+
     public void AddScore(int pointsToAdd)
     {
         _score += pointsToAdd;
     }
-    
+
     public int GetScore()
     {
         return _score;
@@ -341,7 +358,7 @@ public class Player : MonoBehaviour
     {
         _currentAmmo = _maximumAllowedAmmo;
     }
-    
+
     public int GetCurrentAmmo()
     {
         return _currentAmmo;
@@ -351,18 +368,18 @@ public class Player : MonoBehaviour
     {
         return _maximumAllowedAmmo;
     }
-    
+
     public int GetCurrentShieldCounter()
     {
         return _shieldCounter;
     }
-    
+
     public void AddAmmo(int ammoToAdd)
     {
         _currentAmmo += ammoToAdd;
         ResetMaximumAmmo();
     }
-    
+
     private void ResetMaximumAmmo()
     {
         if (_currentAmmo >= _maximumAllowedAmmo)
@@ -370,9 +387,9 @@ public class Player : MonoBehaviour
             _currentAmmo = _maximumAllowedAmmo;
         }
     }
-    
-    public void AddLive() 
-    { 
+
+    public void AddLive()
+    {
         if (_lives < 3)
             _lives++;
     }

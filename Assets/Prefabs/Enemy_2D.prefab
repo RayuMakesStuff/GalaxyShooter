@@ -121,6 +121,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _speed: 3
+  _laserPrefab: {fileID: 1953294546384607606, guid: 3786e7c66f0911b4190a1610fbbe8b15, type: 3}
   _explosionSound: {fileID: 8300000, guid: a885c043fab7e46438bba03ba9dab6bc, type: 3}
 --- !u!61 &8363347562423839719
 BoxCollider2D:
